@@ -1,39 +1,40 @@
 'use strict';
 
 // Imports dependencies and set up http server
-const
-requestify=require('requestify'),
-  express = require('express'),
-  bodyParser = require('body-parser'),
-  PageAccessToken='EAAHZAqUeuVxgBAO2RaZANoSbC3Jxs2FPMPbMwWWQbT8SuqZAOR3dX0G5xiVMdUUUmoMPISwv4sphWePsLOnA4e2OR351u6MpDPjHv1fCvyCzujegrZA4ihCetxRoZCatuMs4aDu33sH9xKjmAjBQ470MdBBzQFWuM3ZB1wzyA3owZAS8FOpQzoEZBWsHEJqalWIZD',
-  app = express().use(bodyParser.json()); // creates express http server 
-   const sendmessageurl='https://graph.facebook.com/v4.0/me/messages?access_token='+PageAccessToken
+	const
+	requestify=require('requestify'),
+	express = require('express'),
+	bodyParser = require('body-parser'),
+	PageAccessToken='EAAHZAqUeuVxgBAO2RaZANoSbC3Jxs2FPMPbMwWWQbT8SuqZAOR3dX0G5xiVMdUUUmoMPISwv4sphWePsLOnA4e2OR351u6MpDPjHv1fCvyCzujegrZA4ihCetxRoZCatuMs4aDu33sH9xKjmAjBQ470MdBBzQFWuM3ZB1wzyA3owZAS8FOpQzoEZBWsHEJqalWIZD',
+	app = express().use(bodyParser.json()); // creates express http server 
+	const sendmessageurl='https://graph.facebook.com/v4.0/me/messages?access_token='+PageAccessToken
 
-  requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PageAccessToken,
-  	{"get_started":{"payload":"Hi"},
-  	"persistent_menu":[
-  	{
-  		"locale":"default",
-  		"composer_input_disabled":false,
-  		"call_to_actions":[
-  		{
-  			"type":"postback",
-  			"title":"Home",
-  			"payload":"Hi"
+	requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PageAccessToken,
+		{"get_started":{"payload":"Hi"},
+			MessengerExtensions.askPermission(success, error, permission),
+		"persistent_menu":[
+			{
+				"locale":"default",
+				"composer_input_disabled":false,
+				"call_to_actions":[
+				{
+					"type":"postback",
+					"title":"Home",
+					"payload":"Hi"
 
-  		},
-  		{
-  			"type":"web_url",
-  			"title":"Visit Page",
-  			"url":"https://mym-acavxb.firebaseapp.com/index.html",
-  			"webview_height_ratio":"tall"
+				},
+				{
+					"type":"web_url",
+					"title":"Visit Page",
+					"url":"https://mym-acavxb.firebaseapp.com/index.html",
+					"webview_height_ratio":"tall"
 
-
-  		}
-  	]
-
-  }
- ],
+				}
+			]
+	
+		}
+	],
+  
   "greeting": [
     {
       "locale":"default",
@@ -114,6 +115,12 @@ app.post('/webhook', (req, res) => {
 	}}
 	 if(userButton == 'Hi' || userComment == 'Hi'){
 
+
+/*	MessengerExtensions.askPermission(
+	funcition(permission_response) {
+	// Person grants or rejects the asked permission.
+	let permission */
+	MessengerExtensions.askPermission(success, error, permission);
  
 requestify.post(sendmessageurl,
 {        
@@ -147,10 +154,10 @@ requestify.post(sendmessageurl,
 },
 
 {
-      "title":"SaPal Phyu",
-	  "image_url":"https://sites.psu.edu/siowfa16/files/2016/10/YeDYzSR-10apkm4.png",
-      "subtitle":"test",
-      "buttons":[{
+     "title":"SaPal Phyu",
+	 "image_url":"https://sites.psu.edu/siowfa16/files/2016/10/YeDYzSR-10apkm4.png",
+     "subtitle":"test",
+     "buttons":[{
   "type": "postback",
   "title": "button 1",
   "payload": "payload 1"
@@ -197,7 +204,6 @@ console.log('error', error);
   
   });
   }
-  
   
     });
 
