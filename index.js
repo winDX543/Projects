@@ -123,6 +123,22 @@ app.post('/admin', (req, res) => {
 	}
 })
 
+app.post('/advisor', (req, res) => {
+	var userInput = req.body.userInput
+	var senderID = req.body.senderID
+	if(userInput == 'Hi'){
+		textMessage(senderID,'Welcome Advisor')
+	}
+})
+
+app.post('/user', (req, res) => {
+	var userInput = req.body.userInput
+	var senderID = req.body.senderID
+	if(userInput == 'Hi'){
+		textMessage(senderID,'Welcome User')
+	}
+})
+
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
@@ -141,30 +157,41 @@ app.post('/webhook', (req, res) => {
       var senderID=webhook_event.sender.id;
       console.log('senderID',senderID);
       if(webhook_event.postback){
-      	var userButton=webhook_event.postback.payload;
-      	console.log('reply',userButton);
+      	var userInput=webhook_event.postback.payload;
     }
     if (webhook_event.message) {if (webhook_event.message.text) {
-    	var userComment=webhook_event.message.text;
-    	console.log('userComment',userComment);
+    	var userInput=webhook_event.message.text;
     }
 	if (webhook_event.message.attachments){
-		var userImage=webhook_event.message.attachments;
-		console.log('userPhoto',userImage);
+		var userMedia=webhook_event.message.attachments.payload.url;
 
 	}}
-	 if(userButton == 'Hi' || userComment == 'Hi'){
+	 
 		db.collection('admin').where('id','==',`${senderID}`).get().then(adminList => {
 			if(adminList.empty){
-				//check for book advisor
+				db.collection('BookAdvisor').where('id','==',`${senderID}`).get().then(advisorList => {
+					if(advisorList.empty){
+						requestify.post('https://winbookadvisor.herokuapp.com/user', {
+							userInput: userInput || null,
+							senderID: senderID
+						})
+					}else{
+						requestify.post('https://winbookadvisor.herokuapp.com/advisor', {
+							userInput: userInput || null,
+							senderID: senderID,
+							video: userMedia
+						})
+					}
+				})
 			}else{
 				requestify.post('https://winbookadvisor.herokuapp.com/admin', {
-					userInput: userButton || userComment,
-					senderID: senderID
+					userInput: userInput || null,
+					senderID: senderID,
+					image: userMedia
 				})
 			}
 		})
-	 }
+	 
 	
   
   
