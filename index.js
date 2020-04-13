@@ -41,7 +41,7 @@ const db = admin.firestore()
 				"call_to_actions":[
 				{
 					"type":"postback",
-					"title":"Home",
+					"title":"Homehello",
 					"payload":"Hi"
 
 				},
@@ -71,18 +71,18 @@ const db = admin.firestore()
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
-app.get('/', (req, res)=>{
+/*app.get('/', (req, res)=>{
 	res.send("Hello vro!");
 })
+*/
 
-/
 
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
   let VERIFY_TOKEN = "19950419"
-    
+   
   // Parse the query params
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
