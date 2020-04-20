@@ -41,7 +41,13 @@ const db = admin.firestore()
 				"call_to_actions":[
 				{
 					"type":"postback",
-					"title":"Homehello",
+					"title":"Love",
+					"payload":"Hi"
+
+				},
+				{
+					"type":"postback",
+					"title":"Pulyy",
 					"payload":"Hi"
 
 				},
